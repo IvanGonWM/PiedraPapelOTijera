@@ -1,0 +1,88 @@
+.mat-success {
+  background-color: #28ca7f;
+}
+
+.inputs {
+  width: 400px !important;
+  font-size: 30px;
+}
+
+.inputs2{
+  width: 400px !important;
+  font-size: 30px;
+  margin-left: 20px;
+}
+
+.tagjugador{
+    margin-top: 20px;
+    margin-bottom: 50px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 45px;
+}
+
+.boton1{
+  font-size: 25px;
+  min-width: 100px;
+  min-height: 100px;
+  align-self: center;
+  margin-top: 20px;
+}
+
+.boton2{
+  font-size: 25px;
+  min-width: 100px;
+  min-height: 100px;
+  align-self: center;
+  margin-top: -30px;
+}
+
+.boton3{
+  font-size: 30px;
+  min-width: 130px;
+  min-height: 130px;
+  align-self: center;
+  margin-top: 30px;
+}
+
+.boton4{
+  font-size: 40px;
+  min-width: 370px;
+  min-height: 130px;
+  align-self: center;
+  margin-top: 20px;
+} 
+
+.mat-form-field {
+    width: 500px;
+    text-align: center;
+    margin-top: 17px;
+    align-self: center;
+}
+
+.sape {
+  min-width: 370px;
+  align-self: center;
+}
+
+.green {
+    color: #198754;
+}
+
+.red {
+    color: #dc3545;
+}
+
+
+.sub-titulo {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 45px;
+}
+
+.subtitulo-ganador{
+  margin-top: 71px;
+  margin-bottom: 30px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 50px;
+}

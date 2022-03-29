@@ -1,0 +1,22 @@
+.mat-toolbar {
+
+    background-color: #155196;
+    height: 12%;
+    font-size: 60px;
+    color: white;
+    font-family: 'Arvo', serif;
+
+}
+
+.mat-icon {
+    color: #DBE2EF;
+    font-size: 45px;
+}
+
+.piedra {
+    margin-left: 100px;
+}
+
+.tijera {
+    margin-right: 100px;
+}
