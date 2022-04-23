@@ -7,8 +7,62 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutGap="70px">
-    <div fxFlex="22" fxLayoutAlign="center">
-      <img class="corazon" src="../../../assets/corazonMxIxS.png" alt="miltonxivanxseba">
+    <div fxFlex="22" fxLayoutAlign="center" class="centro-izq mat-elevation-z8"> 
+      <div class="card-body" *ngIf="mostrarJugadasPosibles">
+        <h3>JUGADAS DISPONIBLES</h3>
+        <!-- [class.achicar]="this.jugadas$.length > 5 && this.jugadas.length <= 9" [class.achicarmas]="this.jugadas.length > 9" -->
+        <table  class="table tabla1">
+          <tbody>
+            <tr *ngFor="let jugada of jugadas$|async ">
+              <td>{{ jugada }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button mat-raised-button class="boton1" (click)="mostrarCrear()" color="success">Crear Jugada</button>
+        <button mat-raised-button class="boton2" (click)="mostrarBorrar()">Borrar Jugada</button>
+      </div>
+
+
+      <div class="card-body" *ngIf="mostrarAgregarJugadas">
+        <form [formGroup]="nuevaJugadaForm" id="datos">
+        <h3>AGREGAR NUEVAS JUGADAS <br></h3>
+        <h6>(Reinicia la partida)</h6>
+          <span class="tagjugada" [class.green]="this.nuevaJugadaForm.get('jugada')?.valid"
+            [class.red]="this.nuevaJugadaForm.get('jugada')?.invalid && this.nuevaJugadaForm.get('jugada')?.touched">
+              Nombre de la jugada nueva: <br>
+        </span>
+      <mat-form-field class="input-jugada" appearance="fill">
+        <input formControlName="jugada" maxlength="12" matInput placeholder="Ej: Marley">
+      </mat-form-field>
+        <span class="tagganacontra" [class.green]="this.nuevaJugadaForm.get('ganaContra')?.valid"
+          [class.red]="this.nuevaJugadaForm.get('ganaContra')?.invalid && this.nuevaJugadaForm.get('ganaContra')?.touched">
+            <br>A que le gana:<br>
+        </span>
+      <mat-form-field class="input-ganaContra" appearance="fill">
+        <input formControlName="ganaContra" maxlength="12" matInput placeholder="Ej: Falopa">
+      </mat-form-field>
+      <br>
+      <button mat-raised-button class="boton3" (click)="sumarJugada()" [disabled]="this.nuevaJugadaForm.get('jugada')?.invalid || 
+      this.nuevaJugadaForm.get('ganaContra')?.invalid"  color="success">Agregar</button>
+      <button mat-raised-button class="boton4" (click)="cancelarMostrar()">Cancelar</button>
+      </form>
+    </div>
+      <div class="card-body" *ngIf="mostrarBorrarJugadas">
+        <form [formGroup]="eliminarJugadaForm" id="datosborrar">
+        <h3>BORRAR JUGADAS <br></h3>
+        <h6>(Reinicia la partida)</h6>
+        <span class="tagjugada" [class.green]="this.eliminarJugadaForm.get('eliminar')?.valid"
+            [class.red]="this.eliminarJugadaForm.get('eliminar')?.invalid && this.eliminarJugadaForm.get('eliminar')?.touched">
+              Nombre de la jugada a borrar: <br>
+        </span>
+        <mat-form-field class="input-jugada" appearance="fill">
+          <input formControlName="eliminar" maxlength="12" matInput placeholder="Ej: Tijera">
+        </mat-form-field> <br>
+      <button mat-raised-button class="boton3" (click)="borrarJugada()" [disabled]="this.nuevaJugadaForm.get('eliminar')?.invalid" color="success">Agregar</button>
+      <button mat-raised-button class="boton4" (click)="cancelarMostrar()">Cancelar</button>
+      </form>
+      </div>
+
     </div>
     <div fxFlex fxLayoutAlign="center" class="centro-med mat-elevation-z8">
       <div fxLayout="column">
@@ -17,7 +71,7 @@
     </div>
     <div fxFlex="26" fxLayoutAlign="center" class="centro-der mat-elevation-z8">
       <div class="card-body">
-    <h4 class="titulo2">TABLA DE PUNTUACIONES</h4>
+    <h3>TABLA DE PUNTUACIONES</h3>
     <table class="table">
       <tbody>
       <tr>
@@ -25,13 +79,11 @@
         <td>GANADOR:</td>
       </tr>
         <tr *ngFor="let ronda of rondas">
-          <td>{{ ronda.ronda }}</td>
-          <td>{{ ronda.ganador }}</td>
+          <td>{{ ronda }}</td>
         </tr>
       </tbody>
     </table>
-</div>
-      <!-- <app-tablapuntuaciones></app-tablapuntuaciones> -->
+      </div>
     </div>
   </div>
 </div>

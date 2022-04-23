@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MainscreenComponent } from './mainscreen/mainscreen.component';
-import { TablapuntuacionesComponent } from './tablapuntuaciones/tablapuntuaciones.component';
 import { JuegoComponent } from './juego/juego.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -22,14 +21,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { tablaService } from './tablaService';
+import { facadeService } from './facade.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
     MainscreenComponent,
-    TablapuntuacionesComponent,
     JuegoComponent,
   ],
   imports: [
@@ -47,7 +45,7 @@ import { tablaService } from './tablaService';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [tablaService],
+  providers: [facadeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

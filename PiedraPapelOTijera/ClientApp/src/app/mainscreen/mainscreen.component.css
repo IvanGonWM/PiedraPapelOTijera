@@ -1,17 +1,65 @@
 .titulo {
-    color: #fff;
-    font-size: 50px;
-    margin-top: 60px;
-    font-family: 'Playfair Display', serif;;
+  color: #fff;
+  font-size: 50px;
+  margin-top: 60px;
+  font-family: "Playfair Display", serif;
+}
+.tabla1 {
+  margin-top: -5px;
+  margin-bottom: -2px;
+}
+.achicar {
+  font-size: 15px !important;
+  margin-bottom: -12px;
 }
 
-.card {
-    background-color: #2FA4FF;
+.achicarmas {
+  font-size: 10px !important;
+  margin-bottom: -16px;
 }
+
 .corazon {
   margin-top: 50px;
   height: 400px !important;
 }
+
+.boton1 {
+  font-size: 20px;
+  min-width: 60px;
+  min-height: 25px;
+  margin-right: 30px;
+}
+
+.boton2 {
+  font-size: 20px;
+  min-width: 60px;
+  min-height: 25px;
+  margin-left: 30px;
+  background: rgb(224, 37, 56);
+}
+
+.boton3 {
+  font-size: 35px;
+  min-width: 120px;
+  min-height: 50px;
+  align-self: center;
+}
+
+.boton4 {
+  font-size: 35px;
+  min-width: 120px;
+  min-height: 50px;
+  margin-left: 30px;
+  background: rgb(224, 37, 56);
+}
+
+.centro-izq,
+.centro-der,
+.input-ganaContra,
+.input-jugada {
+  background-color: #f8c436 !important;
+}
+
 .centro-med {
   width: 600px;
   text-align: center;
@@ -31,28 +79,58 @@
   margin-top: 25px;
 }
 
+.tagjugada {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tagganacontra {
+  margin-top: -30px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.input-jugada {
+  margin-top: 10px;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: -15px;
+}
+
+.input-ganaContra {
+  margin-top: 10px;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: -20px;
+}
+
+.centro-izq {
+  text-align: center;
+  vertical-align: middle;
+  height: 450px;
+  background-color: aliceblue;
+  font-size: 25px;
+  margin-top: 25px;
+}
+
 .mat-success {
   background-color: #28ca7f;
   align-self: center;
   margin-top: 20px;
 }
 
-
-.mat-fab {
-  font-size: 22px;
-  min-width: 90px;
-  min-height: 90px;
+.mat-form-field {
+  font-size: 20px;
 }
 
 .mat-success {
   background-color: #28ca7f;
-
 }
 
 .green {
-    color: #198754;
+  color: #198754;
 }
 
-.titulo2 {
-    text-align: center;
+.red {
+  color: #dc3545;
 }
