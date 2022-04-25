@@ -11,9 +11,9 @@ namespace PiedraPapelOTijera.Data
         }
 
         public DbSet<Model.InfoRondas> Rondas { get; set; }
-        public DbSet<Model.Gana> Gana { get; set; }
-        public DbSet<Model.Partida> Partida { get; set; }
-        public DbSet<Model.Elemento> Elemento { get; set; }
+        public DbSet<Gana> Gana { get; set; }
+        public DbSet<Partida> Partida { get; set; }
+        public DbSet<Elemento> Elemento { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {

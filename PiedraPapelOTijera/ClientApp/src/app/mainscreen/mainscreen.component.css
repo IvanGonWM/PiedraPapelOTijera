@@ -4,10 +4,12 @@
   margin-top: 60px;
   font-family: "Playfair Display", serif;
 }
+
 .tabla1 {
   margin-top: -5px;
   margin-bottom: -2px;
 }
+
 .achicar {
   font-size: 15px !important;
   margin-bottom: -12px;
@@ -67,6 +69,7 @@
   height: 500px;
   background-color: aliceblue;
   font-size: 25px;
+  border-radius: 20px;
 }
 
 .centro-der {
@@ -77,6 +80,7 @@
   background-color: aliceblue;
   font-size: 25px;
   margin-top: 25px;
+  border-radius: 20px 0px 0px 20px;
 }
 
 .tagjugada {
@@ -104,6 +108,16 @@
   margin-bottom: -20px;
 }
 
+.tablaJugadas {
+  overflow-y: scroll;
+  height: 320px;
+}
+
+.tablaPuntuaciones {
+  overflow-y: scroll;
+  height: 320px;
+}
+
 .centro-izq {
   text-align: center;
   vertical-align: middle;
@@ -111,6 +125,18 @@
   background-color: aliceblue;
   font-size: 25px;
   margin-top: 25px;
+  border-radius: 0px 20px 20px 0px;
+}
+
+::ng-deep .tooltip-container{
+  height: 55px;
+  overflow: auto;
+  font-size: 14px;
+  text-align: center;
+  padding: 5px;
+  border: 2px solid #6A041D;
+  background-color: #c1385b;
+  margin-left: -245px !important;
 }
 
 .mat-success {

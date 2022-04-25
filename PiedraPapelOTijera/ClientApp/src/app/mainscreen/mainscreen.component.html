@@ -10,23 +10,21 @@
     <div fxFlex="22" fxLayoutAlign="center" class="centro-izq mat-elevation-z8"> 
       <div class="card-body" *ngIf="mostrarJugadasPosibles">
         <h3>JUGADAS DISPONIBLES</h3>
-        <!-- [class.achicar]="this.jugadas$.length > 5 && this.jugadas.length <= 9" [class.achicarmas]="this.jugadas.length > 9" -->
-        <table  class="table tabla1">
-          <tbody>
-            <tr *ngFor="let jugada of jugadas$|async ">
-              <td>{{ jugada }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <button mat-raised-button class="boton1" (click)="mostrarCrear()" color="success">Crear Jugada</button>
-        <button mat-raised-button class="boton2" (click)="mostrarBorrar()">Borrar Jugada</button>
+        <div class="tablaJugadas">
+          <table  class="table tabla1">
+            <tbody>
+              <tr *ngFor="let jugada of jugadas$|async">
+                <td>{{ jugada.nombre }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button mat-raised-button class="boton1" (click)="mostrarCrear()" color="success">Crear jugada nueva</button>
       </div>
-
-
       <div class="card-body" *ngIf="mostrarAgregarJugadas">
         <form [formGroup]="nuevaJugadaForm" id="datos">
-        <h3>AGREGAR NUEVAS JUGADAS <br></h3>
-        <h6>(Reinicia la partida)</h6>
+        <h3>AGREGAR NUEVAS JUGADAS</h3>
+        <div matTooltipClass="tooltip-container" [matTooltip]="'Al agregar nuevas jugadas, reiniciara la partida actual'" [matTooltipPosition]="'right'"><i class="fa fa-question-circle"></i></div>
           <span class="tagjugada" [class.green]="this.nuevaJugadaForm.get('jugada')?.valid"
             [class.red]="this.nuevaJugadaForm.get('jugada')?.invalid && this.nuevaJugadaForm.get('jugada')?.touched">
               Nombre de la jugada nueva: <br>
@@ -47,22 +45,6 @@
       <button mat-raised-button class="boton4" (click)="cancelarMostrar()">Cancelar</button>
       </form>
     </div>
-      <div class="card-body" *ngIf="mostrarBorrarJugadas">
-        <form [formGroup]="eliminarJugadaForm" id="datosborrar">
-        <h3>BORRAR JUGADAS <br></h3>
-        <h6>(Reinicia la partida)</h6>
-        <span class="tagjugada" [class.green]="this.eliminarJugadaForm.get('eliminar')?.valid"
-            [class.red]="this.eliminarJugadaForm.get('eliminar')?.invalid && this.eliminarJugadaForm.get('eliminar')?.touched">
-              Nombre de la jugada a borrar: <br>
-        </span>
-        <mat-form-field class="input-jugada" appearance="fill">
-          <input formControlName="eliminar" maxlength="12" matInput placeholder="Ej: Tijera">
-        </mat-form-field> <br>
-      <button mat-raised-button class="boton3" (click)="borrarJugada()" [disabled]="this.nuevaJugadaForm.get('eliminar')?.invalid" color="success">Agregar</button>
-      <button mat-raised-button class="boton4" (click)="cancelarMostrar()">Cancelar</button>
-      </form>
-      </div>
-
     </div>
     <div fxFlex fxLayoutAlign="center" class="centro-med mat-elevation-z8">
       <div fxLayout="column">
@@ -79,7 +61,8 @@
         <td>GANADOR:</td>
       </tr>
         <tr *ngFor="let ronda of rondas">
-          <td>{{ ronda }}</td>
+          <td>{{ ronda.ronda }}</td>
+          <td>{{ ronda.ganador }}</td>
         </tr>
       </tbody>
     </table>

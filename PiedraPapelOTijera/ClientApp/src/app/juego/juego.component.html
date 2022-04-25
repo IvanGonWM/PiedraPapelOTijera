@@ -1,8 +1,8 @@
-<form [formGroup]="form" id="datos">
+<form [formGroup]="jugarForm" id="datos">
   <div *ngIf="mostrarNombres">
     <div>
-      <span class="tagjugador" [class.green]="this.form.get('jugador1')?.valid"
-            [class.red]="this.form.get('jugador1')?.invalid && this.form.get('jugador1')?.touched">
+      <span class="tagjugador" [class.green]="this.jugarForm.get('jugador1')?.valid"
+            [class.red]="this.jugarForm.get('jugador1')?.invalid && this.jugarForm.get('jugador1')?.touched">
               Jugador 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         </span>
       <mat-form-field class="inputs" appearance="fill">
@@ -10,49 +10,49 @@
       </mat-form-field>
     </div>
     <div>
-      <span class="tagjugador" [class.green]="this.form.get('jugador2')?.valid"
-            [class.red]="this.form.get('jugador2')?.invalid && this.form.get('jugador2')?.touched">
+      <span class="tagjugador" [class.green]="this.jugarForm.get('jugador2')?.valid"
+            [class.red]="this.jugarForm.get('jugador2')?.invalid && this.jugarForm.get('jugador2')?.touched">
               Jugador 2:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         </span>
       <mat-form-field class="inputs" appearance="fill">
         <input formControlName="jugador2" maxlength="12" matInput placeholder="Ej: Sebastian">
       </mat-form-field>
     </div>
-    <button mat-fab class="boton1" color="success" [disabled]="this.form.get('jugador1')?.invalid || this.form.get('jugador2')?.invalid" (click)="mostrarJugadas1()" form="nombres">OK</button>
+    <button mat-fab class="boton1" color="success" [disabled]="this.jugarForm.get('jugador1')?.invalid || this.jugarForm.get('jugador2')?.invalid" (click)="jugarPartida()" form="nombres">OK</button>
   </div>
 
 
   <div fxLayout="column" *ngIf="mostrarElecciones1">
     <div fxLayout="row" fxLayoutGap="45px">
-      <div class="sub-titulo" [class.green]="this.form.get('eleccion1')?.valid"
-          [class.red]="this.form.get('eleccion1')?.invalid && this.form.get('eleccion1')?.touched">Elegir jugada de <br>{{this.form.get('jugador1')?.value}}:</div>
+      <div class="sub-titulo" [class.green]="this.jugarForm.get('eleccion1')?.valid"
+          [class.red]="this.jugarForm.get('eleccion1')?.invalid && this.jugarForm.get('eleccion1')?.touched">Elegir jugada de <br>{{this.jugarForm.get('jugador1')?.value}}:</div>
       <mat-form-field class="inputs2" appearance="outline">
         <mat-label>Piedra, papel o tijeras?</mat-label>
         <mat-select formControlName="eleccion1">
-          <mat-option *ngFor="let posibilidad of posibilidades" [value]="posibilidad">
-            {{ posibilidad }}
+          <mat-option *ngFor="let posibilidad of posibilidades$|async" [value]="posibilidad">
+            {{ posibilidad.nombre }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <button mat-fab class="boton2" (click)="mostrarJugadas2()" [disabled]="this.form.get('eleccion1')?.invalid" color="success">JUGAR</button>
+    <button mat-fab class="boton2" (click)="mostrarJugadas2()" [disabled]="this.jugarForm.get('eleccion1')?.invalid" color="success">JUGAR</button>
   </div>
   <div fxLayout="column" *ngIf="mostrarElecciones2">
     <div fxLayout="row" fxLayoutGap="45px">
-      <div class="sub-titulo" [class.green]="this.form.get('eleccion2')?.valid"
-          [class.red]="this.form.get('eleccion2')?.invalid && 
-          this.form.get('eleccion2')?.touched">Elegir jugada de <br>{{this.form.get('jugador2')?.value}}:
+      <div class="sub-titulo" [class.green]="this.jugarForm.get('eleccion2')?.valid"
+          [class.red]="this.jugarForm.get('eleccion2')?.invalid && 
+          this.jugarForm.get('eleccion2')?.touched">Elegir jugada de <br>{{this.jugarForm.get('jugador2')?.value}}:
       </div>
       <mat-form-field class="inputs2" appearance="outline">
         <mat-label>Piedra, papel o tijeras?</mat-label>
         <mat-select formControlName="eleccion2">
-          <mat-option *ngFor="let posibilidad of posibilidades" [value]="posibilidad">
-            {{ posibilidad }}
+          <mat-option *ngFor="let posibilidad of posibilidades$|async" [value]="posibilidad">
+            {{ posibilidad.nombre }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <button mat-fab class="boton2" (click)="mostrarResultado()" [disabled]="this.form.invalid" color="success">JUGAR</button>
+    <button mat-fab class="boton2" (click)="jugarRonda()" [disabled]="this.jugarForm.invalid" color="success">JUGAR</button>
   </div>
 
 
@@ -63,12 +63,12 @@
     <div>
       
     </div>
-    <button mat-fab class="boton3" (click)="volverAEleccion()" [disabled]="this.form.invalid" color="success">SEGUIR</button>
+    <button mat-fab class="boton3" (click)="volverAEleccion()" [disabled]="this.jugarForm.invalid" color="success">SEGUIR</button>
   </div>
   
 
   <div fxLayout="column" *ngIf="mostrarFinal">
-    <img class="sape" src="../../../assets/sape.png" alt="SAPEEEE">
-    <button mat-raised-button class="boton4" (click)="botonFinal()" color="success">OK</button>
+    <img class="SIUUUU" src="../../../assets/SIUUU.webp" alt="SIUUUU">
+    <button mat-raised-button class="boton4" (click)="botonFinal()" color="success">VOLVER A JUGAR</button>
   </div>
 </form>

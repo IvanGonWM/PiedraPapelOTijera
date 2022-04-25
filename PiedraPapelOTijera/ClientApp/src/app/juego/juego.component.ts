@@ -2,6 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { facadeService } from '../facade.service';
 import { Observable } from 'rxjs';
+import { GanadorRonda } from '../ganadorRonda';
+import { InfoRondas } from '../InfoRondas';
+import { Elemento } from '../elemento';
 
 @Component({
   selector: 'app-juego',
@@ -10,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class JuegoComponent implements OnInit {
   constructor(private fb: FormBuilder, private servicioFachada: facadeService) {
-    this.form = this.fb.group({
+    this.jugarForm = this.fb.group({
       jugador1: ['', Validators.required],
       jugador2: ['', Validators.required],
       eleccion1: ['', Validators.required],
@@ -18,14 +21,15 @@ export class JuegoComponent implements OnInit {
     });
   }
 
-  form: FormGroup;
-  datosPartida = { ronda: 1, ganadasP1: 0, ganadasP2: 0 };
-  posibilidades: string[] = ['Piedra', 'Papel', 'Tijera'];
+  jugarForm: FormGroup;
+  numRonda = 1;
+  idPartida = 0;
+  ultimoGanador: GanadorRonda = { ganador: '', final: false };
 
   @Output() nuevoTitulo = new EventEmitter<string>();
-  @Output() nuevaRonda = new EventEmitter<string>();
+  @Output() nuevaRonda = new EventEmitter<InfoRondas>();
 
-  posibilidades$!: Observable<string[]>;
+  posibilidades$!: Observable<Elemento[]>;
 
   //VIEWS
   mostrarNombres: boolean = true;
@@ -36,20 +40,18 @@ export class JuegoComponent implements OnInit {
 
   //OUTPUTSTRINGS
   fraseRonda: string = '';
-  nombreGanador: string = '';
 
   cambiarTitulo(titulo: string) {
     this.nuevoTitulo.emit(titulo);
   }
 
-  agregarRonda(nombreGanador: string) {
-    this.nuevaRonda.emit(nombreGanador);
+  agregarRonda(infoRonda: InfoRondas) {
+    this.nuevaRonda.emit(infoRonda);
   }
 
   mostrarJugadas1() {
     this.mostrarNombres = false;
     this.mostrarElecciones1 = true;
-    this.cambiarTitulo(`Ronda ${this.datosPartida['ronda']}`);
   }
 
   mostrarJugadas2() {
@@ -57,93 +59,67 @@ export class JuegoComponent implements OnInit {
     this.mostrarElecciones2 = true;
   }
 
-  jugarRonda() {
-    // if (
-    //   this.form.get('eleccion1')?.value === this.form.get('eleccion2')?.value
-    // ) {
-    //   this.fraseRonda = 'Hubo un empate';
-    //   return;
-    // } else if (this.form.get('eleccion1')?.value === 'Piedra') {
-    //   if (this.form.get('eleccion2')?.value === 'Papel') {
-    //     this.fraseRonda = `El ganador de la ronda ${
-    //       this.datosPartida['ronda']
-    //     } es \n${this.form.get('jugador2')?.value}`;
-    //     this.datosPartida['ganadasP2']++;
-    //     this.nombreganador = this.form.get('jugador2')?.value;
-    //   } else if (this.form.get('eleccion2')?.value === 'Tijera') {
-    //     this.fraseRonda = `El ganador de la ronda ${
-    //       this.datosPartida['ronda']
-    //     } es \n${this.form.get('jugador1')?.value}`;
-    //     this.datosPartida['ganadasP1']++;
-    //     this.nombreganador = this.form.get('jugador1')?.value;
-    //   }
-    // } else if (this.form.get('eleccion1')?.value === 'Papel') {
-    //   if (this.form.get('eleccion2')?.value === 'Tijera') {
-    //     this.fraseRonda = `El ganador de la ronda ${
-    //       this.datosPartida['ronda']
-    //     } es \n${this.form.get('jugador2')?.value}`;
-    //     this.datosPartida['ganadasP2']++;
-    //     this.nombreganador = this.form.get('jugador2')?.value;
-    //   } else if (this.form.get('eleccion2')?.value === 'Piedra') {
-    //     this.fraseRonda = `El ganador de la ronda ${
-    //       this.datosPartida['ronda']
-    //     } es \n${this.form.get('jugador1')?.value}`;
-    //     this.datosPartida['ganadasP1']++;
-    //     this.nombreganador = this.form.get('jugador1')?.value;
-    //   }
-    // } else if (this.form.get('eleccion1')?.value === 'Tijera') {
-    //   if (this.form.get('eleccion2')?.value === 'Papel') {
-    //     this.fraseRonda = `El ganador de la ronda ${
-    //       this.datosPartida['ronda']
-    //     } es \n${this.form.get('jugador1')?.value}`;
-    //     this.datosPartida['ganadasP1']++;
-    //     this.nombreganador = this.form.get('jugador1')?.value;
-    //   } else if (this.form.get('eleccion2')?.value === 'Piedra') {
-    //     this.fraseRonda = `El ganador de la ronda ${
-    //       this.datosPartida['ronda']
-    //     } es \n${this.form.get('jugador2')?.value}`;
-    //     this.datosPartida['ganadasP2']++;
-    //     this.nombreganador = this.form.get('jugador2')?.value;
-    //   }
-    // }
-    // this.inforondas = new InfoRondas();
-    // this.inforondas.ronda = this.datosPartida['ronda'];
-    // this.inforondas.ganador = this.nombreganador;
-    // const headers = { 'Content-Type': 'application/json', Accept: '*/*' };
-    // this._httpClient
-    //   .post<any>('https://localhost:44443/inforondas', this.inforondas, {
-    //     headers,
-    //   })
-    //   .subscribe();
-    // this.agregarRonda(this.inforondas);
+  mostrarGanadorRonda() {
+    this.mostrarElecciones2 = false;
+    this.mostrarGanador = true;
   }
 
-  jugarRondaNuevo() {}
-
-  mostrarResultado() {
+  mostrarFin() {
     this.mostrarElecciones2 = false;
-    this.jugarRonda();
-    if (this.datosPartida['ganadasP1'] === 3) {
-      this.mostrarFinal = true;
-      this.cambiarTitulo(
-        `El ganador es ${this.form.get('jugador1')?.value}!! SAPEEEEE`
-      );
-    } else if (this.datosPartida['ganadasP2'] === 3) {
-      this.mostrarFinal = true;
-      this.cambiarTitulo(
-        `El ganador es ${this.form.get('jugador2')?.value}!! SAPEEEEE`
-      );
+    this.mostrarFinal = true;
+  }
+
+  jugarPartida() {
+    this.servicioFachada
+      .postPartida(
+        this.jugarForm.get('jugador1')?.value,
+        this.jugarForm.get('jugador2')?.value
+      )
+      .subscribe((data) => {
+        this.idPartida = data.id;
+        this.cambiarTitulo(`Empezo el juego: Ronda ${this.numRonda}`);
+        this.mostrarJugadas1();
+      });
+  }
+
+  jugarRonda() {
+    this.servicioFachada.postRonda(
+      this.jugarForm.get('eleccion1')?.value.nombre,
+      this.jugarForm.get('eleccion2')?.value.nombre,
+      this.numRonda,
+      this.idPartida,
+    ).subscribe ((data) => {
+      if (data.final == true) {
+      this.cambiarTitulo(`EL GANADOR DE LA PARTIDA ES ${data.ganador.toUpperCase()}!! SIUUUUU`);
+      this.agregarRonda({
+        ronda: this.numRonda,
+        ganador: `${data.ganador} - Final`,
+      });
+      this.mostrarFin();
+    } else if (data.ganador == '') {
+      this.cambiarTitulo(`En la ronda ${this.numRonda} hubo un empate`);
+      this.numRonda++;
+      this.fraseRonda = `Proceda a la ronda ${this.numRonda}`;
+      this.mostrarGanadorRonda();
     } else {
-      this.mostrarGanador = true;
-      this.datosPartida['ronda']++;
-      this.cambiarTitulo(`Proceda a la ronda ${this.datosPartida['ronda']}`);
-    }
+      this.cambiarTitulo(`El ganador de la ronda ${this.numRonda} fue ${data.ganador}`);
+      this.agregarRonda({
+        ronda: this.numRonda,
+        ganador: data.ganador,
+      });
+      this.numRonda++;
+      this.fraseRonda = `Bien jugado ${data.ganador}, procedan a la ronda ${this.numRonda}`;
+      this.mostrarGanadorRonda();
+      }
+    });
   }
 
   volverAEleccion() {
     this.mostrarGanador = false;
     this.mostrarElecciones1 = true;
-    this.cambiarTitulo(`Ronda ${this.datosPartida['ronda']}`);
+    this.jugarForm.get('eleccion1')?.reset();
+    this.jugarForm.get('eleccion2')?.reset();
+    this.cambiarTitulo(`Ronda ${this.numRonda}`);
   }
 
   botonFinal() {

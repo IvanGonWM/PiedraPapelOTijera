@@ -4,6 +4,8 @@ using PiedraPapelOTijera.Data.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "AllowAnyOrigin";
+
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -13,7 +15,20 @@ var connectionString = builder.Configuration.GetConnectionString("conexion1");
 builder.Services.AddDbContext<Context>(
     options => options.UseSqlServer(connectionString));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
+
 
 using (var serviceScope = app.Services.CreateScope())
 {
@@ -21,11 +36,11 @@ using (var serviceScope = app.Services.CreateScope())
 
     if (!cntx.Elemento.Any())
     {
-        cntx.Elemento.Add(new Elemento() {Nombre = "Piedra"});
+        cntx.Elemento.Add(new Elemento() { Nombre = "Piedra" });
 
-        cntx.Elemento.Add(new Elemento() {Nombre = "Papel"});
+        cntx.Elemento.Add(new Elemento() { Nombre = "Papel" });
 
-        cntx.Elemento.Add(new Elemento() {Nombre = "Tijera"});
+        cntx.Elemento.Add(new Elemento() { Nombre = "Tijera" });
 
         await cntx.SaveChangesAsync();
 
@@ -50,7 +65,7 @@ using (var serviceScope = app.Services.CreateScope())
         await cntx.SaveChangesAsync();
     }
 
-// Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
     {
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -60,7 +75,7 @@ using (var serviceScope = app.Services.CreateScope())
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
-
+    app.UseCors(MyAllowSpecificOrigins);
 
     app.MapControllerRoute(
         name: "default",

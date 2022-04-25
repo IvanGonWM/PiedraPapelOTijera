@@ -1,3 +1,3 @@
 export class Elemento {
-    nombre: string = "";
+  nombre: string = '';
 }

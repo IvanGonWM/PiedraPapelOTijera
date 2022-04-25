@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Elemento } from '../elemento';
 import { facadeService } from '../facade.service';
+import { InfoRondas } from '../InfoRondas';
 
 @Component({
   selector: 'app-mainscreen',
@@ -14,19 +16,14 @@ export class MainscreenComponent implements OnInit {
       jugada: ['', Validators.required],
       ganaContra: ['', Validators.required],
     });
-    this.eliminarJugadaForm = this.fb.group({
-      eliminar: ['', Validators.required],
-    });
   }
 
   public strTitulo = 'Ingrese el nombre de los jugadores:';
-  public rondas: string[] = [];
-  public jugadas$!:Observable<string[]>;
+  public rondas: InfoRondas[] = [];
+  public jugadas$!: Observable<Elemento[]>;
   nuevaJugadaForm: FormGroup;
   nuevaJugadaInput: string = '';
   nuevaJugadaInput2: string = '';
-  eliminarJugadaForm: FormGroup;
-  eliminarJugadaInput: string = '';
 
   //VIEWS
   mostrarJugadasPosibles: boolean = true;
@@ -35,6 +32,10 @@ export class MainscreenComponent implements OnInit {
 
   intercambiarTitulo(titulo: string) {
     this.strTitulo = titulo;
+  }
+
+  sumarRonda(item: InfoRondas) {
+    this.rondas.push(item);
   }
 
   mostrarCrear() {
@@ -53,25 +54,17 @@ export class MainscreenComponent implements OnInit {
     this.mostrarJugadasPosibles = true;
   }
 
-  sumarRonda(item: string) {
-    this.rondas.push(item);
-  }
-
-  borrarJugada(){
-    this.eliminarJugadaInput = this.eliminarJugadaForm.get('eliminar')?.value;
-  }
-
   sumarJugada() {
     this.nuevaJugadaInput = this.nuevaJugadaForm.get('jugada')?.value;
     this.nuevaJugadaInput2 = this.nuevaJugadaForm.get('ganaContra')?.value;
     this.servicioFachada.postElemento(
       this.nuevaJugadaInput,
-      this.nuevaJugadaInput2
+      this.nuevaJugadaInput2,
     );
     window.location.reload();
   }
 
   ngOnInit(): void {
-    this.jugadas$ = this.servicioFachada.getElementos()
+    this.jugadas$ = this.servicioFachada.getElementos();
   }
 }

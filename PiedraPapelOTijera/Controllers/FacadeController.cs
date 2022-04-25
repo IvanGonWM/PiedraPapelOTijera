@@ -27,7 +27,7 @@ namespace PiedraPapelOTijera.Controllers
         }
 
         [HttpPost("ronda")]
-        public async Task<JsonResult> NuevaRonda([FromBody] CrearRondaModel crearRonda)
+        public async Task<GanadorRonda> NuevaRonda([FromBody] CrearRondaModel crearRonda)
         {
             int elementoTemp1 = _context.Elemento.First(e => e.Nombre == crearRonda.Elemento1).Id;
             int elementoTemp2 = _context.Elemento.First(e => e.Nombre == crearRonda.Elemento2).Id;
@@ -47,7 +47,7 @@ namespace PiedraPapelOTijera.Controllers
                 ganadorRonda = 2;
                 nombreGanador = partida.Jugador2;
             }
-            
+
             _context.Rondas.Add(new Data.Model.InfoRondas()
             {
                 Ronda = crearRonda.Ronda,
@@ -66,7 +66,7 @@ namespace PiedraPapelOTijera.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return new JsonResult(new { ganador = nombreGanador, final = finalPartida });
+            return new GanadorRonda { Ganador = nombreGanador, Final = finalPartida };
         }
 
         [HttpGet("jugadas")]
@@ -78,19 +78,27 @@ namespace PiedraPapelOTijera.Controllers
         [HttpPost("jugadas")]
         public async Task<JsonResult> Crear([FromBody] CrearJugadaModel crearJugada)
         {
-            if (!_context.Elemento.Any(e => e.Nombre == crearJugada.Elemento1))
+            var elem1 = _context.Elemento.FirstOrDefault(e => e.Nombre == crearJugada.Elemento1);
+            if (elem1 == null)
                 _context.Elemento.Add(new Elemento { Nombre = crearJugada.Elemento1 });
 
-            if (!_context.Elemento.Any(e => e.Nombre == crearJugada.Elemento1))
+            var elem2 = _context.Elemento.FirstOrDefault(e => e.Nombre == crearJugada.Elemento2);
+            if (elem2 == null)
                 _context.Elemento.Add(new Elemento { Nombre = crearJugada.Elemento2 });
 
             await _context.SaveChangesAsync();
 
-            _context.Gana.Add(new Gana
+            if (!(elem1 != null &&
+                  elem2 != null &&
+                 (_context.Gana.Any(e => e.ElementoId == elem1.Id && e.GanaContraId == elem2.Id) ||
+                 _context.Gana.Any(e => e.ElementoId == elem2.Id && e.GanaContraId == elem1.Id))))
             {
-                ElementoId = _context.Elemento.First(e => e.Nombre == crearJugada.Elemento1).Id,
-                GanaContraId = _context.Elemento.First(e => e.Nombre == crearJugada.Elemento2).Id
-            });
+                _context.Gana.Add(new Gana
+                {
+                    ElementoId = _context.Elemento.First(e => e.Nombre == crearJugada.Elemento1).Id,
+                    GanaContraId = _context.Elemento.First(e => e.Nombre == crearJugada.Elemento2).Id
+                });
+            }
 
             await _context.SaveChangesAsync();
 

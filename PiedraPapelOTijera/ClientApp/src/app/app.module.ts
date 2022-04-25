@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { facadeService } from './facade.service';
@@ -43,6 +44,7 @@ import { facadeService } from './facade.service';
     MatTableModule,
     MatSelectModule,
     HttpClientModule,
+    MatTooltipModule,
     FormsModule,
   ],
   providers: [facadeService],
